@@ -1,0 +1,360 @@
+{% extends 'main/base.html' %} {% load static %} {% block content %}
+<!-- Navigation -->
+<nav class="navbar" id="navbar">
+  <div class="nav-container container">
+    <button class="nav-brand" type="button" data-scroll-to="home">AF</button>
+    <button
+      class="nav-toggle"
+      id="navToggle"
+      aria-label="Toggle navigation"
+      aria-expanded="false"
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <div class="nav-menu" id="navMenu">
+      <a href="#home" class="nav-link">Home</a>
+      <a href="#about" class="nav-link">About</a>
+      <a href="#skills" class="nav-link">Skills</a>
+      <a href="#projects" class="nav-link">Projects</a>
+      <a href="#github" class="nav-link">GitHub</a>
+      <a href="#contact" class="nav-link">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero Section -->
+<section
+  id="home"
+  class="hero section flex flex-col items-center justify-center"
+>
+  <div class="hero-content container">
+    <h1 class="hero-name">Altamash Faraz</h1>
+    <p class="hero-subtitle">Final Year Computer Engineering Student</p>
+    <p class="hero-location">📍 Dhule, Maharashtra, India</p>
+    <div class="typing-container" aria-live="polite">
+      <span class="typing-text" id="typing"></span
+      ><span class="cursor" id="cursor"></span>
+    </div>
+    <div class="hero-social flex gap-8 justify-center">
+      <a
+        href="https://github.com/altamash-faraz"
+        target="_blank"
+        class="social-link btn btn--outline"
+        >GitHub</a
+      >
+      <a
+        href="https://www.linkedin.com/in/altamashfaraz/"
+        target="_blank"
+        class="social-link btn btn--outline"
+        >LinkedIn</a
+      >
+      <a
+        href="https://altamashfaraz.me"
+        target="_blank"
+        class="social-link btn btn--outline"
+        >Website</a
+      >
+    </div>
+  </div>
+</section>
+
+<!-- About Section -->
+<section id="about" class="section">
+  <div class="container">
+    <h2 class="section-title">About Me</h2>
+    <div class="about-content">
+      <p class="about-text">
+        A passionate Computer Engineer from SVKM's Institute of Technology,
+        Dhule. Currently in my final year of B.Tech Computer Engineering, I
+        specialize in web development, artificial intelligence, and machine
+        learning.
+      </p>
+      <div class="about-details">
+        <div class="detail-item">
+          <span class="detail-label">Education:</span
+          ><span class="detail-value">B.Tech Computer Engineering</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Institution:</span
+          ><span class="detail-value"
+            >SVKM's Institute of Technology, Dhule</span
+          >
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Status:</span
+          ><span class="detail-value">Final Year Student</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Skills Section -->
+<section id="skills" class="section">
+  <div class="container">
+    <h2 class="section-title">Skills & Technologies</h2>
+    <div class="skills-grid">
+      <div class="skill-category">
+        <h3>Programming Languages</h3>
+        <div class="skill-list">
+          <span class="skill-tag">Python</span>
+          <span class="skill-tag">HTML</span>
+          <span class="skill-tag">CSS</span>
+          <span class="skill-tag">JavaScript</span>
+        </div>
+      </div>
+      <div class="skill-category">
+        <h3>Frameworks</h3>
+        <div class="skill-list">
+          <span class="skill-tag">Flask</span>
+          <span class="skill-tag">Django</span>
+        </div>
+      </div>
+      <div class="skill-category">
+        <h3>Databases</h3>
+        <div class="skill-list"><span class="skill-tag">MongoDB</span></div>
+      </div>
+      <div class="skill-category">
+        <h3>Technologies</h3>
+        <div class="skill-list">
+          <span class="skill-tag">OCR</span>
+          <span class="skill-tag">Machine Learning</span>
+          <span class="skill-tag">QR Code Generation</span>
+          <span class="skill-tag">Web Development</span>
+        </div>
+      </div>
+      <div class="skill-category">
+        <h3>Tools</h3>
+        <div class="skill-list">
+          <span class="skill-tag">Git</span>
+          <span class="skill-tag">GitHub</span>
+          <span class="skill-tag">Visual Studio Code</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Projects Section -->
+<section id="projects" class="section">
+  <div class="container">
+    <h2 class="section-title">Featured Projects</h2>
+    <div class="projects-grid">
+      <!-- Project 1 -->
+      <div class="project-card">
+        <div class="project-header">
+          <h3>altamashfaraz.me</h3>
+          <span class="project-category">Portfolio</span>
+        </div>
+        <p class="project-description">
+          Professional portfolio showcasing Python development, Machine Learning
+          projects, and Computer Engineering expertise. Built with modern web
+          technologies and optimized for performance and accessibility.
+        </p>
+        <div class="project-tech">
+          <span class="tech-tag">CSS</span><span class="tech-tag">HTML</span
+          ><span class="tech-tag">JavaScript</span>
+        </div>
+        <a
+          href="https://github.com/altamash-faraz/altamashfaraz.me"
+          target="_blank"
+          class="project-link"
+          >View on GitHub</a
+        >
+      </div>
+      <!-- Project 2 -->
+      <div class="project-card">
+        <div class="project-header">
+          <h3>visiOCR</h3>
+          <span class="project-category">AI/ML</span>
+        </div>
+        <p class="project-description">
+          An intelligent OCR-powered visitor management system that
+          automatically extracts information from Aadhaar cards and generates
+          secure visitor passes with QR codes.
+        </p>
+        <div class="project-tech">
+          <span class="tech-tag">Python</span><span class="tech-tag">OCR</span
+          ><span class="tech-tag">QR Code</span>
+        </div>
+        <a
+          href="https://github.com/altamash-faraz/visiOCR"
+          target="_blank"
+          class="project-link"
+          >View on GitHub</a
+        >
+      </div>
+      <!-- Project 3 -->
+      <div class="project-card">
+        <div class="project-header">
+          <h3>VotePro</h3>
+          <span class="project-category">Web Application</span>
+        </div>
+        <p class="project-description">
+          A Flask-based polling application with OTP verification and real-time
+          results.
+        </p>
+        <div class="project-tech">
+          <span class="tech-tag">HTML</span><span class="tech-tag">Python</span
+          ><span class="tech-tag">Flask</span>
+        </div>
+        <a
+          href="https://github.com/altamash-faraz/votepro"
+          target="_blank"
+          class="project-link"
+          >View on GitHub</a
+        >
+      </div>
+      <!-- Project 4 -->
+      <div class="project-card">
+        <div class="project-header">
+          <h3>CRUD</h3>
+          <span class="project-category">Web Application</span>
+        </div>
+        <p class="project-description">
+          A feature-rich, enterprise-grade CRUD (Create, Read, Update, Delete)
+          web application built with Python Flask and MongoDB.
+        </p>
+        <div class="project-tech">
+          <span class="tech-tag">HTML</span><span class="tech-tag">Python</span
+          ><span class="tech-tag">Flask</span
+          ><span class="tech-tag">MongoDB</span>
+        </div>
+        <a
+          href="https://github.com/altamash-faraz/CRUD"
+          target="_blank"
+          class="project-link"
+          >View on GitHub</a
+        >
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GitHub Stats Section -->
+<section id="github" class="section">
+  <div class="container">
+    <h2 class="section-title">GitHub Activity</h2>
+    <div class="github-stats">
+      <div class="stat-card">
+        <div class="stat-number">132</div>
+        <div class="stat-label">Contributions Last Year</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">15</div>
+        <div class="stat-label">Followers</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">22</div>
+        <div class="stat-label">Following</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">6</div>
+        <div class="stat-label">Recent Repositories</div>
+      </div>
+    </div>
+    <div class="github-link-container">
+      <a
+        href="https://github.com/altamash-faraz"
+        target="_blank"
+        class="btn btn--primary"
+        >Visit GitHub Profile</a
+      >
+    </div>
+  </div>
+</section>
+
+<!-- Contact Section -->
+<section id="contact" class="section">
+  <div class="container">
+    <h2 class="section-title">Get In Touch</h2>
+    <div class="contact-content">
+      <div class="contact-form-container">
+        <!-- Message display area -->
+        <div
+          id="form-message"
+          class="form-message"
+          style="
+            display: none;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 4px;
+          "
+        ></div>
+
+        <form
+          class="contact-form"
+          id="contactForm"
+          method="post"
+          action="{% url 'contact' %}"
+        >
+          {% csrf_token %}
+          <div class="form-group">
+            <label class="form-label">Name</label
+            ><input type="text" name="name" class="form-control" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email</label
+            ><input type="email" name="email" class="form-control" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Message</label
+            ><textarea
+              name="message"
+              class="form-control"
+              rows="5"
+              required
+            ></textarea>
+          </div>
+          <button type="submit" class="btn btn--primary btn--full-width">
+            Send Message
+          </button>
+        </form>
+      </div>
+      <div class="contact-links">
+        <h3>Connect With Me</h3>
+        <div class="social-links">
+          <a
+            href="https://github.com/altamash-faraz"
+            target="_blank"
+            class="contact-link"
+            ><span>GitHub</span></a
+          >
+          <a
+            href="https://www.linkedin.com/in/altamashfaraz/"
+            target="_blank"
+            class="contact-link"
+            ><span>LinkedIn</span></a
+          >
+          <a
+            href="https://altamashfaraz.me"
+            target="_blank"
+            class="contact-link"
+            ><span>Website</span></a
+          >
+          <a
+            href="https://leetcode.com/u/altamash_faraz01/"
+            target="_blank"
+            class="contact-link"
+            ><span>LeetCode</span></a
+          >
+          <a
+            href="https://instagram.com/altamashfaraz_aarij"
+            target="_blank"
+            class="contact-link"
+            ><span>Instagram</span></a
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <p>&copy; 2025 Altamash Faraz. All rights reserved.</p>
+  </div>
+</footer>
+{% endblock %}
