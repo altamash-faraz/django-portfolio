@@ -5,7 +5,7 @@ services:
     region: oregon
     plan: free
     buildCommand: "pip install -r requirements.txt && cd portfolio && python manage.py collectstatic --noinput && python manage.py migrate"
-    startCommand: "cd portfolio && gunicorn portfolio.wsgi:application"
+    startCommand: "cd portfolio && gunicorn --bind 0.0.0.0:$PORT portfolio.wsgi:application"
     envVars:
       - key: DEBUG
         value: false
@@ -13,3 +13,5 @@ services:
         generateValue: true
       - key: WEB_CONCURRENCY
         value: 4
+      - key: DJANGO_SETTINGS_MODULE
+        value: portfolio.settings
