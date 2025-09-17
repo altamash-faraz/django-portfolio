@@ -2,6 +2,13 @@
 
 A professional portfolio website built with Django, featuring a modern design, contact form functionality, and admin panel for managing submissions.
 
+## 🌐 Live Website
+
+**🚀 [View Live Portfolio](https://altamashfaraz.pythonanywhere.com/)**
+
+- **Portfolio**: https://altamashfaraz.pythonanywhere.com/
+- **Admin Panel**: https://altamashfaraz.pythonanywhere.com/admin/
+
 ## Features
 
 - 🎨 **Modern Design**: Responsive portfolio with clean, professional styling
@@ -20,7 +27,17 @@ A professional portfolio website built with Django, featuring a modern design, c
 - **GitHub Stats**: GitHub activity and statistics
 - **Contact**: Working contact form with real-time validation
 
-## Technology Stack
+## 📱 Demo
+
+![Portfolio Demo](https://img.shields.io/badge/Status-Live-brightgreen)
+
+### Features Showcase:
+- ✨ **Responsive Design**: Works perfectly on desktop, tablet, and mobile
+- 🎯 **Contact Form**: Submit messages directly from the website
+- 📊 **GitHub Integration**: Live GitHub stats and project showcase
+- 🔐 **Admin Panel**: Secure backend for managing submissions
+
+## 🛠️ Technology Stack
 
 - **Backend**: Django 5.2.6
 - **Database**: SQLite3
