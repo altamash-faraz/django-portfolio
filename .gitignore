@@ -18,6 +18,7 @@ media/
 
 # IDE
 .vscode/
+.hintrc
 
 # Deployment files
 render.yaml
