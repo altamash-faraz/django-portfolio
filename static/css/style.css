@@ -890,15 +890,16 @@ body {
     -webkit-text-fill-color: transparent;
     background-clip: text;
     margin-bottom: 1rem;
-    animation: glow 2s ease-in-out infinite alternate;
+    /* Reduced glow effect */
+    text-shadow: 0 0 5px rgba(50, 184, 198, 0.3);
 }
 
 @keyframes glow {
     from {
-        text-shadow: 0 0 20px var(--neon-blue), 0 0 30px var(--neon-blue), 0 0 40px var(--neon-blue);
+        text-shadow: 0 0 5px rgba(50, 184, 198, 0.3);
     }
     to {
-        text-shadow: 0 0 30px var(--neon-pink), 0 0 40px var(--neon-pink), 0 0 50px var(--neon-pink);
+        text-shadow: 0 0 8px rgba(50, 184, 198, 0.5);
     }
 }
 
@@ -1139,6 +1140,47 @@ body {
     color: var(--neon-blue);
     font-size: 1.3rem;
     text-shadow: 0 0 10px var(--neon-blue);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.project-logo {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    filter: drop-shadow(0 0 5px var(--neon-blue));
+}
+
+.project-links {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.project-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1.5rem;
+    background: transparent;
+    color: var(--neon-blue);
+    text-decoration: none;
+    border: 2px solid var(--neon-blue);
+    border-radius: 25px;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.demo-link {
+    border-color: var(--neon-green);
+    color: var(--neon-green);
+}
+
+.demo-link:hover {
+    background: var(--neon-green);
+    color: #000;
+    box-shadow: 0 0 20px var(--neon-green);
 }
 
 .project-category {
@@ -1170,17 +1212,6 @@ body {
     border: 1px solid var(--neon-green);
     border-radius: 15px;
     font-size: 0.8rem;
-}
-
-.project-link {
-    display: inline-block;
-    padding: 0.8rem 1.5rem;
-    background: transparent;
-    color: var(--neon-blue);
-    text-decoration: none;
-    border: 2px solid var(--neon-blue);
-    border-radius: 25px;
-    transition: all 0.3s ease;
 }
 
 .project-link:hover {
