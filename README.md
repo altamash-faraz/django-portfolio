@@ -4,8 +4,6 @@ A professional portfolio website built with Django, featuring a modern design, c
 
 ## 🌐 Live Website
 
-**🚀 [View Live Portfolio](https://altamashfaraz.pythonanywhere.com/)**
-
 - **Portfolio**: https://altamashfaraz.pythonanywhere.com/
 - **Admin Panel**: https://altamashfaraz.pythonanywhere.com/admin/
 
