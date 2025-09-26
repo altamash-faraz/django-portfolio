@@ -363,41 +363,53 @@
     <h2 class="section-title">Resume</h2>
     <div class="resume-content">
       {% if active_resume %}
-        <div class="resume-card">
-          <div class="resume-header">
-            <h3>{{ active_resume.title }}</h3>
-            <span class="resume-date">Last updated: {{ active_resume.updated_at|date:"M d, Y" }}</span>
-          </div>
-          {% if active_resume.description %}
-            <p class="resume-description">{{ active_resume.description }}</p>
-          {% endif %}
-          <div class="resume-actions">
-            <a href="{% url 'resume_preview' %}" target="_blank" class="btn btn--outline resume-btn">
-              <span>👁️</span> Preview Resume
-            </a>
-            <a href="{% url 'resume_download' %}" class="btn btn--primary resume-btn">
-              <span>📄</span> Download PDF
-            </a>
-            <a href="{% url 'resume' %}" class="btn btn--secondary resume-btn">
-              <span>📋</span> View Details
-            </a>
-          </div>
-          <div class="resume-stats">
-            <div class="stat-item">
-              <span class="stat-number">{{ active_resume.download_count }}</span>
-              <span class="stat-label">Downloads</span>
-            </div>
+      <div class="resume-card">
+        <div class="resume-header">
+          <h3>{{ active_resume.title }}</h3>
+          <span class="resume-date"
+            >Last updated: {{ active_resume.updated_at|date:"M d, Y" }}</span
+          >
+        </div>
+        {% if active_resume.description %}
+        <p class="resume-description">{{ active_resume.description }}</p>
+        {% endif %}
+        <div class="resume-actions">
+          <a
+            href="{% url 'resume_preview' %}"
+            target="_blank"
+            class="btn btn--outline resume-btn"
+          >
+            <span>👁️</span> Preview Resume
+          </a>
+          <a
+            href="{% url 'resume_download' %}"
+            class="btn btn--primary resume-btn"
+          >
+            <span>📄</span> Download PDF
+          </a>
+          <a href="{% url 'resume' %}" class="btn btn--secondary resume-btn">
+            <span>📋</span> View Details
+          </a>
+        </div>
+        <div class="resume-stats">
+          <div class="stat-item">
+            <span class="stat-number">{{ active_resume.download_count }}</span>
+            <span class="stat-label">Downloads</span>
           </div>
         </div>
+      </div>
       {% else %}
-        <div class="resume-placeholder">
-          <div class="placeholder-content">
-            <span class="placeholder-icon">📄</span>
-            <h3>Resume Coming Soon</h3>
-            <p>I'm currently updating my resume. Please check back soon or contact me directly for the latest version.</p>
-            <a href="#contact" class="btn btn--outline">Contact Me</a>
-          </div>
+      <div class="resume-placeholder">
+        <div class="placeholder-content">
+          <span class="placeholder-icon">📄</span>
+          <h3>Resume Coming Soon</h3>
+          <p>
+            I'm currently updating my resume. Please check back soon or contact
+            me directly for the latest version.
+          </p>
+          <a href="#contact" class="btn btn--outline">Contact Me</a>
         </div>
+      </div>
       {% endif %}
     </div>
   </div>

@@ -1,9 +1,5 @@
-{% extends 'main/base.html' %}
-{% load static %}
-
-{% block title %}Resume - Altamash Faraz{% endblock %}
-
-{% block content %}
+{% extends 'main/base.html' %} {% load static %} {% block title %}Resume -
+Altamash Faraz{% endblock %} {% block content %}
 <!-- Navigation -->
 <nav class="navbar" id="navbar">
   <div class="nav-container container">
@@ -21,8 +17,10 @@
     <div class="nav-menu" id="navMenu">
       <a href="{% url 'index' %}" class="nav-link">Back to Portfolio</a>
       {% if active_resume %}
-        <a href="{% url 'resume_preview' %}" target="_blank" class="nav-link">Preview</a>
-        <a href="{% url 'resume_download' %}" class="nav-link">Download</a>
+      <a href="{% url 'resume_preview' %}" target="_blank" class="nav-link"
+        >Preview</a
+      >
+      <a href="{% url 'resume_download' %}" class="nav-link">Download</a>
       {% endif %}
     </div>
   </div>
@@ -42,90 +40,127 @@
 <section class="section">
   <div class="container">
     {% if active_resume %}
-      <div class="resume-main-card">
-        <div class="resume-info">
-          <div class="resume-title-section">
-            <h2>{{ active_resume.title }}</h2>
-            <div class="resume-meta">
-              <span class="meta-item">
-                <strong>Last Updated:</strong> {{ active_resume.updated_at|date:"F d, Y" }}
-              </span>
-              <span class="meta-item">
-                <strong>Downloads:</strong> {{ active_resume.download_count }}
-              </span>
-              <span class="meta-item">
-                <strong>Created:</strong> {{ active_resume.created_at|date:"F d, Y" }}
-              </span>
-            </div>
+    <div class="resume-main-card">
+      <div class="resume-info">
+        <div class="resume-title-section">
+          <h2>{{ active_resume.title }}</h2>
+          <div class="resume-meta">
+            <span class="meta-item">
+              <strong>Last Updated:</strong> {{ active_resume.updated_at|date:"F
+              d, Y" }}
+            </span>
+            <span class="meta-item">
+              <strong>Downloads:</strong> {{ active_resume.download_count }}
+            </span>
+            <span class="meta-item">
+              <strong>Created:</strong> {{ active_resume.created_at|date:"F d,
+              Y" }}
+            </span>
           </div>
-          
-          {% if active_resume.description %}
-            <div class="resume-description">
-              <h3>About This Resume</h3>
-              <p>{{ active_resume.description }}</p>
-            </div>
-          {% endif %}
+        </div>
 
-          <div class="resume-actions-section">
-            <div class="action-buttons">
-              <a href="{% url 'resume_preview' %}" target="_blank" class="btn btn--primary btn-large">
-                <span>👁️</span> Preview Resume
-              </a>
-              <a href="{% url 'resume_download' %}" class="btn btn--secondary btn-large">
-                <span>📄</span> Download PDF
-              </a>
-            </div>
+        {% if active_resume.description %}
+        <div class="resume-description">
+          <h3>About This Resume</h3>
+          <p>{{ active_resume.description }}</p>
+        </div>
+        {% endif %}
+
+        <div class="resume-actions-section">
+          <div class="action-buttons">
+            <a
+              href="{% url 'resume_preview' %}"
+              target="_blank"
+              class="btn btn--primary btn-large"
+            >
+              <span>👁️</span> Preview Resume
+            </a>
+            <a
+              href="{% url 'resume_download' %}"
+              class="btn btn--secondary btn-large"
+            >
+              <span>📄</span> Download PDF
+            </a>
           </div>
+        </div>
 
-          <div class="resume-preview-container">
-            <h3>Quick Preview</h3>
-            <div class="pdf-preview">
-              <iframe 
-                src="{% url 'resume_preview' %}" 
-                width="100%" 
-                height="600px" 
-                style="border: 1px solid var(--neon-blue); border-radius: 8px;">
-                <p>Your browser doesn't support PDFs. <a href="{% url 'resume_download' %}" target="_blank">Download the PDF</a> instead.</p>
-              </iframe>
-            </div>
+        <div class="resume-preview-container">
+          <h3>Quick Preview</h3>
+          <div class="pdf-preview">
+            <iframe
+              src="{% url 'resume_preview' %}"
+              width="100%"
+              height="600px"
+              style="border: 1px solid var(--neon-blue); border-radius: 8px"
+            >
+              <p>
+                Your browser doesn't support PDFs.
+                <a href="{% url 'resume_download' %}" target="_blank"
+                  >Download the PDF</a
+                >
+                instead.
+              </p>
+            </iframe>
           </div>
         </div>
       </div>
+    </div>
     {% else %}
-      <div class="no-resume-section">
-        <div class="no-resume-content">
-          <div class="icon-large">📄</div>
-          <h2>No Resume Available</h2>
-          <p>I'm currently updating my resume. Please check back soon or feel free to contact me directly for the most up-to-date version of my qualifications and experience.</p>
-          <div class="contact-alternatives">
-            <a href="{% url 'index' %}#contact" class="btn btn--primary">Contact Me</a>
-            <a href="{% url 'index' %}#about" class="btn btn--outline">Learn About Me</a>
-          </div>
+    <div class="no-resume-section">
+      <div class="no-resume-content">
+        <div class="icon-large">📄</div>
+        <h2>No Resume Available</h2>
+        <p>
+          I'm currently updating my resume. Please check back soon or feel free
+          to contact me directly for the most up-to-date version of my
+          qualifications and experience.
+        </p>
+        <div class="contact-alternatives">
+          <a href="{% url 'index' %}#contact" class="btn btn--primary"
+            >Contact Me</a
+          >
+          <a href="{% url 'index' %}#about" class="btn btn--outline"
+            >Learn About Me</a
+          >
         </div>
       </div>
+    </div>
     {% endif %}
 
     <!-- All Resumes Section (if multiple exist) -->
     {% if all_resumes|length > 1 %}
-      <div class="all-resumes-section">
-        <h3>All Available Resumes</h3>
-        <div class="resumes-grid">
-          {% for resume in all_resumes %}
-            <div class="resume-item {% if resume.is_active %}active-resume{% endif %}">
-              <h4>{{ resume.title }}</h4>
-              <p class="resume-date">{{ resume.created_at|date:"F d, Y" }}</p>
-              {% if resume.description %}
-                <p class="resume-desc">{{ resume.description|truncatewords:15 }}</p>
-              {% endif %}
-              <div class="resume-actions-mini">
-                <a href="{% url 'resume_preview_specific' resume.id %}" target="_blank" class="btn btn--small">Preview</a>
-                <a href="{% url 'resume_download_specific' resume.id %}" class="btn btn--small btn--outline">Download</a>
-              </div>
-              <div class="download-count">{{ resume.download_count }} downloads</div>
-            </div>
-          {% endfor %}
+    <div class="all-resumes-section">
+      <h3>All Available Resumes</h3>
+      <div class="resumes-grid">
+        {% for resume in all_resumes %}
+        <div
+          class="resume-item {% if resume.is_active %}active-resume{% endif %}"
+        >
+          <h4>{{ resume.title }}</h4>
+          <p class="resume-date">{{ resume.created_at|date:"F d, Y" }}</p>
+          {% if resume.description %}
+          <p class="resume-desc">{{ resume.description|truncatewords:15 }}</p>
+          {% endif %}
+          <div class="resume-actions-mini">
+            <a
+              href="{% url 'resume_preview_specific' resume.id %}"
+              target="_blank"
+              class="btn btn--small"
+              >Preview</a
+            >
+            <a
+              href="{% url 'resume_download_specific' resume.id %}"
+              class="btn btn--small btn--outline"
+              >Download</a
+            >
+          </div>
+          <div class="download-count">
+            {{ resume.download_count }} downloads
+          </div>
         </div>
+        {% endfor %}
       </div>
+    </div>
     {% endif %}
   </div>
 </section>
@@ -143,167 +178,171 @@
 
 <!-- Custom Resume Styles -->
 <style>
-.resume-hero {
-  background: linear-gradient(135deg, var(--primary-bg) 0%, var(--darker-bg) 100%);
-  padding: 6rem 0 4rem;
-  text-align: center;
-}
+  .resume-hero {
+    background: linear-gradient(
+      135deg,
+      var(--primary-bg) 0%,
+      var(--darker-bg) 100%
+    );
+    padding: 6rem 0 4rem;
+    text-align: center;
+  }
 
-.resume-hero-content .hero-title {
-  font-size: 3rem;
-  margin-bottom: 1rem;
-  background: linear-gradient(45deg, var(--neon-blue), var(--neon-pink));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
+  .resume-hero-content .hero-title {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    background: linear-gradient(45deg, var(--neon-blue), var(--neon-pink));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
 
-.resume-main-card {
-  background: var(--card-bg);
-  border-radius: 12px;
-  padding: 2rem;
-  border: 1px solid var(--neon-blue);
-  margin-bottom: 2rem;
-}
+  .resume-main-card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 2rem;
+    border: 1px solid var(--neon-blue);
+    margin-bottom: 2rem;
+  }
 
-.resume-title-section h2 {
-  color: var(--neon-blue);
-  margin-bottom: 1rem;
-  font-size: 2rem;
-}
+  .resume-title-section h2 {
+    color: var(--neon-blue);
+    margin-bottom: 1rem;
+    font-size: 2rem;
+  }
 
-.resume-meta {
-  display: flex;
-  gap: 1.5rem;
-  flex-wrap: wrap;
-  margin-bottom: 2rem;
-}
-
-.meta-item {
-  color: var(--text-secondary);
-  font-size: 0.9rem;
-}
-
-.resume-description {
-  margin-bottom: 2rem;
-}
-
-.resume-description h3 {
-  color: var(--neon-pink);
-  margin-bottom: 1rem;
-}
-
-.resume-actions-section {
-  margin: 2rem 0;
-}
-
-.action-buttons {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-.btn-large {
-  padding: 1rem 2rem;
-  font-size: 1.1rem;
-}
-
-.pdf-preview {
-  margin-top: 1rem;
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-.no-resume-section {
-  text-align: center;
-  padding: 4rem 0;
-}
-
-.no-resume-content .icon-large {
-  font-size: 4rem;
-  margin-bottom: 2rem;
-}
-
-.contact-alternatives {
-  margin-top: 2rem;
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-.all-resumes-section {
-  margin-top: 3rem;
-  padding-top: 2rem;
-  border-top: 1px solid var(--neon-blue);
-}
-
-.resumes-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 1.5rem;
-  margin-top: 1.5rem;
-}
-
-.resume-item {
-  background: var(--card-bg);
-  padding: 1.5rem;
-  border-radius: 8px;
-  border: 1px solid var(--text-secondary);
-  transition: all 0.3s ease;
-}
-
-.resume-item.active-resume {
-  border-color: var(--neon-blue);
-  box-shadow: 0 0 10px var(--neon-blue);
-}
-
-.resume-item h4 {
-  color: var(--neon-blue);
-  margin-bottom: 0.5rem;
-}
-
-.resume-actions-mini {
-  display: flex;
-  gap: 0.5rem;
-  margin: 1rem 0;
-}
-
-.btn--small {
-  padding: 0.5rem 1rem;
-  font-size: 0.9rem;
-}
-
-.download-count {
-  font-size: 0.8rem;
-  color: var(--text-secondary);
-  text-align: center;
-}
-
-.resume-footer {
-  text-align: center;
-  padding: 3rem 0;
-}
-
-@media (max-width: 768px) {
   .resume-meta {
-    flex-direction: column;
-    gap: 0.5rem;
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
   }
-  
+
+  .meta-item {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+  }
+
+  .resume-description {
+    margin-bottom: 2rem;
+  }
+
+  .resume-description h3 {
+    color: var(--neon-pink);
+    margin-bottom: 1rem;
+  }
+
+  .resume-actions-section {
+    margin: 2rem 0;
+  }
+
   .action-buttons {
-    flex-direction: column;
-    align-items: center;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
   }
-  
+
   .btn-large {
-    width: 100%;
-    max-width: 300px;
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
   }
-  
-  .pdf-preview iframe {
-    height: 400px;
+
+  .pdf-preview {
+    margin-top: 1rem;
+    border-radius: 8px;
+    overflow: hidden;
   }
-}
+
+  .no-resume-section {
+    text-align: center;
+    padding: 4rem 0;
+  }
+
+  .no-resume-content .icon-large {
+    font-size: 4rem;
+    margin-bottom: 2rem;
+  }
+
+  .contact-alternatives {
+    margin-top: 2rem;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .all-resumes-section {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--neon-blue);
+  }
+
+  .resumes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .resume-item {
+    background: var(--card-bg);
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 1px solid var(--text-secondary);
+    transition: all 0.3s ease;
+  }
+
+  .resume-item.active-resume {
+    border-color: var(--neon-blue);
+    box-shadow: 0 0 10px var(--neon-blue);
+  }
+
+  .resume-item h4 {
+    color: var(--neon-blue);
+    margin-bottom: 0.5rem;
+  }
+
+  .resume-actions-mini {
+    display: flex;
+    gap: 0.5rem;
+    margin: 1rem 0;
+  }
+
+  .btn--small {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .download-count {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    text-align: center;
+  }
+
+  .resume-footer {
+    text-align: center;
+    padding: 3rem 0;
+  }
+
+  @media (max-width: 768px) {
+    .resume-meta {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .action-buttons {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .btn-large {
+      width: 100%;
+      max-width: 300px;
+    }
+
+    .pdf-preview iframe {
+      height: 400px;
+    }
+  }
 </style>
 {% endblock %}
