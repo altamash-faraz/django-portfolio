@@ -63,9 +63,12 @@ CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
 
 # SSL/HTTPS settings (if using HTTPS)
-if os.environ.get('USE_HTTPS') == 'True':
-    SECURE_SSL_REDIRECT = True
-    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_SSL_REDIRECT = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+# CDN and proxy settings
+USE_X_FORWARDED_HOST = True
+USE_X_FORWARDED_PORT = True
 
 # Logging
 LOGGING = {
