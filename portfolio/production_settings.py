@@ -62,13 +62,14 @@ SECURE_HSTS_PRELOAD = True
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
 
-# SSL/HTTPS settings (if using HTTPS)
-SECURE_SSL_REDIRECT = True
+# SSL/HTTPS settings - optimized for Namecheap CDN
+SECURE_SSL_REDIRECT = not (os.getenv('RENDER') or os.getenv('NAMECHEAP_CDN'))  # CDN handles SSL
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-# CDN and proxy settings
+# CDN and proxy settings for Namecheap
 USE_X_FORWARDED_HOST = True
 USE_X_FORWARDED_PORT = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Logging
 LOGGING = {
