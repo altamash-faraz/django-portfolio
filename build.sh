@@ -2,13 +2,18 @@
 # build.sh
 set -o errexit
 
-echo "Installing Python packages..."
+echo "🔧 Installing Python packages..."
 pip install -r requirements.txt
 
-echo "Collecting static files..."
-python manage.py collectstatic --no-input --clear
+echo "📁 Creating staticfiles directory..."
+mkdir -p staticfiles
 
-echo "Running database migrations..."
-python manage.py migrate
+echo "🎨 Collecting static files..."
+python manage.py collectstatic --no-input --clear --verbosity=2
 
-echo "Build completed successfully!"
+echo "🗄️ Running database migrations..."
+python manage.py migrate --verbosity=2
+
+echo "✅ Build completed successfully!"
+echo "📊 Static files location: $(pwd)/staticfiles"
+ls -la staticfiles/ || echo "❌ Static files directory not found"
