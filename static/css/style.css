@@ -771,9 +771,8 @@ body {
     top: 0;
     width: 100%;
     padding: 1rem 0;
-    background: rgba(0, 0, 0, 0.9);
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
+    background: rgba(0, 0, 0, 0.95);
+    /* Removed backdrop-filter for better compatibility */
     border-bottom: 1px solid var(--neon-blue);
     z-index: 1000;
     transition: all 0.3s ease;
@@ -1018,11 +1017,11 @@ body {
     display: grid;
     gap: 1rem;
     text-align: left;
-    background: var(--glass-bg);
+    background: rgba(13, 13, 20, 0.95);
     padding: 2rem;
     border-radius: 15px;
     border: 1px solid rgba(0, 255, 255, 0.3);
-    backdrop-filter: blur(10px);
+    /* Removed backdrop-filter for better compatibility */
 }
 
 .detail-item {
@@ -1049,11 +1048,11 @@ body {
 }
 
 .skill-category {
-    background: var(--glass-bg);
+    background: rgba(13, 13, 20, 0.95);
     padding: 2rem;
     border-radius: 15px;
     border: 1px solid rgba(0, 255, 255, 0.3);
-    backdrop-filter: blur(10px);
+    /* Removed backdrop-filter for better compatibility */
     transition: all 0.3s ease;
 }
 
@@ -1099,11 +1098,11 @@ body {
 }
 
 .project-card {
-    background: var(--glass-bg);
+    background: rgba(13, 13, 20, 0.95);
     padding: 2rem;
     border-radius: 15px;
     border: 1px solid rgba(0, 255, 255, 0.3);
-    backdrop-filter: blur(10px);
+    /* Removed backdrop-filter for better compatibility */
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
@@ -1230,11 +1229,11 @@ body {
 }
 
 .stat-card {
-    background: var(--glass-bg);
+    background: rgba(13, 13, 20, 0.95);
     padding: 2rem;
     border-radius: 15px;
     border: 1px solid rgba(0, 255, 255, 0.3);
-    backdrop-filter: blur(10px);
+    /* Removed backdrop-filter for better compatibility */
     text-align: center;
     transition: all 0.3s ease;
 }
@@ -1272,11 +1271,11 @@ body {
 }
 
 .contact-form-container {
-    background: var(--glass-bg);
+    background: rgba(13, 13, 20, 0.95);
     padding: 2rem;
     border-radius: 15px;
     border: 1px solid rgba(0, 255, 255, 0.3);
-    backdrop-filter: blur(10px);
+    /* Removed backdrop-filter for better compatibility */
 }
 
 .contact-form .form-control {
@@ -1319,13 +1318,13 @@ body {
     display: flex;
     align-items: center;
     padding: 1rem;
-    background: var(--glass-bg);
+    background: rgba(13, 13, 20, 0.95);
     border: 1px solid rgba(0, 255, 255, 0.3);
     border-radius: 10px;
     color: var(--neon-blue);
     text-decoration: none;
     transition: all 0.3s ease;
-    backdrop-filter: blur(10px);
+    /* Removed backdrop-filter for better compatibility */
 }
 
 .contact-link:hover {
@@ -1455,12 +1454,12 @@ body {
 }
 
 .resume-card {
-    background: var(--card-bg);
+    background: rgba(13, 13, 20, 0.95);
     border-radius: 16px;
     padding: 2.5rem;
     border: 1px solid var(--neon-blue);
     box-shadow: 0 0 30px rgba(0, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
+    /* Removed backdrop-filter for better compatibility */
     max-width: 600px;
     width: 100%;
     text-align: center;
