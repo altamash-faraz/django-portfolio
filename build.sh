@@ -5,15 +5,18 @@ set -o errexit
 echo "🔧 Installing Python packages..."
 pip install -r requirements.txt
 
-echo "📁 Creating staticfiles directory..."
+echo "📁 Setting up directories..."
 mkdir -p staticfiles
+mkdir -p media
 
 echo "🎨 Collecting static files..."
 python manage.py collectstatic --no-input --clear --verbosity=2
+echo "✅ Static files collected to: $(pwd)/staticfiles"
 
-echo "🗄️ Running database migrations..."
+echo "� Listing collected static files..."
+find staticfiles -name "*.css" -o -name "*.js" | head -10
+
+echo "�🗄️ Running database migrations..."
 python manage.py migrate --verbosity=2
 
-echo "✅ Build completed successfully!"
-echo "📊 Static files location: $(pwd)/staticfiles"
-ls -la staticfiles/ || echo "❌ Static files directory not found"
+echo "🏁 Build completed successfully!"

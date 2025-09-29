@@ -4,7 +4,7 @@ from pathlib import Path
 from .settings import *
 
 # Build paths inside the project.
-BASE_DIR = Path(__file__).resolve().parent.parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -21,7 +21,7 @@ ALLOWED_HOSTS = [
 # WhiteNoise for static files serving
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',  # Add WhiteNoise
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # Must be after SecurityMiddleware
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -52,11 +52,11 @@ STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 ]
 
-# WhiteNoise configuration for static files serving
+# WhiteNoise configuration - Simple approach
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
-WHITENOISE_USE_FINDERS = True
-WHITENOISE_AUTOREFRESH = True
-WHITENOISE_MAX_AGE = 31536000  # 1 year
+
+# Enable debug for static files in production (temporary)
+# WHITENOISE_USE_FINDERS = True
 
 # Media files (User uploaded content)
 MEDIA_URL = '/media/'
