@@ -8,8 +8,15 @@ import os
 
 def index(request):
     """Main portfolio page view"""
-    # Get active resume for display
-    active_resume = Resume.objects.filter(is_active=True).first()
+    # Use hardcoded resume configuration for production reliability
+    active_resume = {
+        'title': 'Altamash Faraz - Resume',
+        'description': 'Software Engineer & Full Stack Developer',
+        'is_active': True,
+        'google_drive_url': 'https://drive.google.com/file/d/1Yqr7FygGXA_b_lgEe0ytN920J_farEZ0/view?usp=sharing',
+        'download_url': 'https://drive.google.com/uc?export=download&id=1Yqr7FygGXA_b_lgEe0ytN920J_farEZ0'
+    }
+    
     context = {
         'active_resume': active_resume
     }
@@ -54,65 +61,29 @@ def contact(request):
 
 def resume_view(request):
     """Display resume page with download option"""
-    active_resume = Resume.objects.filter(is_active=True).first()
-    all_resumes = Resume.objects.all()
+    # Use hardcoded resume configuration for production reliability
+    active_resume = {
+        'title': 'Altamash Faraz - Resume',
+        'description': 'Software Engineer & Full Stack Developer',
+        'is_active': True,
+        'google_drive_url': 'https://drive.google.com/file/d/1Yqr7FygGXA_b_lgEe0ytN920J_farEZ0/view?usp=sharing',
+        'download_url': 'https://drive.google.com/uc?export=download&id=1Yqr7FygGXA_b_lgEe0ytN920J_farEZ0'
+    }
     
     context = {
         'active_resume': active_resume,
-        'all_resumes': all_resumes
+        'all_resumes': [active_resume]  # For template compatibility
     }
     return render(request, 'main/resume.html', context)
 
 def resume_download(request, resume_id=None):
-    """Handle resume download and track download count"""
-    try:
-        if resume_id:
-            resume = get_object_or_404(Resume, id=resume_id)
-        else:
-            # Get active resume if no specific ID provided
-            resume = Resume.objects.filter(is_active=True).first()
-            if not resume:
-                raise Http404("No active resume found")
-        
-        # Increment download count
-        resume.increment_download_count()
-        
-        # Prepare file response
-        if resume.pdf_file and os.path.exists(resume.pdf_file.path):
-            with open(resume.pdf_file.path, 'rb') as pdf_file:
-                response = HttpResponse(pdf_file.read(), content_type='application/pdf')
-                response['Content-Disposition'] = f'attachment; filename="Altamash_Faraz_Resume.pdf"'
-                return response
-        else:
-            raise Http404("Resume file not found")
-            
-    except Resume.DoesNotExist:
-        raise Http404("Resume not found")
-    except Exception as e:
-        # Log error in production
-        raise Http404("Error downloading resume")
+    """Handle resume download and redirect to Google Drive"""
+    # Redirect to Google Drive direct download URL
+    google_drive_download_url = 'https://drive.google.com/uc?export=download&id=1Yqr7FygGXA_b_lgEe0ytN920J_farEZ0'
+    return redirect(google_drive_download_url)
 
 def resume_preview(request, resume_id=None):
-    """Display resume in browser (preview mode)"""
-    try:
-        if resume_id:
-            resume = get_object_or_404(Resume, id=resume_id)
-        else:
-            # Get active resume if no specific ID provided
-            resume = Resume.objects.filter(is_active=True).first()
-            if not resume:
-                raise Http404("No active resume found")
-        
-        # Serve file for preview (inline display)
-        if resume.pdf_file and os.path.exists(resume.pdf_file.path):
-            with open(resume.pdf_file.path, 'rb') as pdf_file:
-                response = HttpResponse(pdf_file.read(), content_type='application/pdf')
-                response['Content-Disposition'] = f'inline; filename="Altamash_Faraz_Resume.pdf"'
-                return response
-        else:
-            raise Http404("Resume file not found")
-            
-    except Resume.DoesNotExist:
-        raise Http404("Resume not found")
-    except Exception as e:
-        raise Http404("Error previewing resume")
+    """Display resume in browser (preview mode) - redirect to Google Drive view"""
+    # Redirect to Google Drive view URL
+    google_drive_view_url = 'https://drive.google.com/file/d/1Yqr7FygGXA_b_lgEe0ytN920J_farEZ0/view?usp=sharing'
+    return redirect(google_drive_view_url)
