@@ -102,48 +102,6 @@ Visit `http://127.0.0.1:8000` to view the portfolio.
 - **PositiveSSL**: SSL certificate
 - **Whitenoise**: Static file serving
 
-### APIs & Integrations
-- **GitHub API**: Dynamic statistics
-- **Google Drive API**: Resume management
-- **Requests**: HTTP client
-
-## 📁 Project Structure
-
-```
-django-portfolio/
-├── main/                   # Main Django app
-│   ├── models.py          # Database models
-│   ├── views.py           # View functions
-│   ├── urls.py            # URL patterns
-│   ├── admin.py           # Admin configuration
-│   └── templates/         # HTML templates
-├── portfolio/             # Django project settings
-│   ├── settings.py        # Project settings
-│   ├── urls.py            # Main URL configuration
-│   └── wsgi.py            # WSGI configuration
-├── static/                # Static files
-│   ├── css/               # Stylesheets
-│   └── js/                # JavaScript files
-├── media/                 # User uploaded files
-├── requirements.txt       # Python dependencies
-├── manage.py              # Django management script
-├── Procfile              # Render deployment
-├── render.yaml           # Render configuration
-└── README.md             # Project documentation
-```
-
-## ⚙️ Environment Variables
-
-Create a `.env` file in the root directory:
-
-```env
-DEBUG=False
-SECRET_KEY=your-secret-key
-ALLOWED_HOSTS=altamashfaraz.me,www.altamashfaraz.me
-GITHUB_USERNAME=your-github-username
-GOOGLE_DRIVE_RESUME_ID=your-google-drive-file-id
-```
-
 ## 🎯 Key Features Explained
 
 ### Dynamic GitHub Stats
