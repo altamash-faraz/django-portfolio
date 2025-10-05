@@ -1,12 +1,19 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse, Http404, HttpResponse
 from django.views.decorators.http import require_http_methods
+from django.views.decorators.csrf import csrf_protect
 from django.contrib import messages
-from .models import Contact, Resume
+from django.core.mail import send_mail
+from django.conf import settings
+from .models import Resume
 import json
 import os
 import requests
 from datetime import datetime, timedelta
+import logging
+
+# Set up logging
+logger = logging.getLogger(__name__)
 
 def get_github_stats(username='altamash-faraz'):
     """Fetch real GitHub statistics for the user"""
@@ -114,37 +121,79 @@ def index(request):
     return render(request, 'main/index.html', context)
 
 @require_http_methods(["GET", "POST"])
+@csrf_protect
 def contact(request):
-    """Handle contact form submissions"""
+    """Handle contact form submissions via email"""
     if request.method == 'POST':
         try:
-            name = request.POST.get('name')
-            email = request.POST.get('email')
-            message = request.POST.get('message')
+            # Log the attempt
+            logger.info("Contact form submission attempt")
+            
+            name = request.POST.get('name', '').strip()
+            email = request.POST.get('email', '').strip()
+            message = request.POST.get('message', '').strip()
             
             # Validate required fields
             if not name or not email or not message:
+                logger.warning("Contact form submission failed: missing fields")
                 return JsonResponse({
                     'status': 'error',
                     'message': 'Please fill in all required fields.'
                 })
             
-            # Save to database
-            contact_submission = Contact.objects.create(
-                name=name,
-                email=email,
-                message=message
-            )
+            # Basic email validation
+            if '@' not in email or '.' not in email.split('@')[-1]:
+                logger.warning(f"Contact form submission failed: invalid email {email}")
+                return JsonResponse({
+                    'status': 'error',
+                    'message': 'Please enter a valid email address.'
+                })
             
-            return JsonResponse({
-                'status': 'success',
-                'message': f'Thank you {name}! Your message has been received. I will get back to you soon.'
-            })
+            # Prepare email content
+            subject = f'Portfolio Contact Form - Message from {name}'
+            email_message = f"""
+New contact form submission from your portfolio:
+
+Name: {name}
+Email: {email}
+
+Message:
+{message}
+
+---
+This message was sent from your portfolio contact form.
+Reply directly to {email} to respond to the sender.
+            """.strip()
+            
+            # Send email
+            try:
+                send_mail(
+                    subject=subject,
+                    message=email_message,
+                    from_email=settings.DEFAULT_FROM_EMAIL,
+                    recipient_list=[settings.CONTACT_EMAIL],
+                    fail_silently=False,
+                )
+                
+                logger.info(f"Contact form email sent successfully from {email}")
+                
+                return JsonResponse({
+                    'status': 'success',
+                    'message': f'Thank you {name}! Your message has been sent. I will get back to you soon.'
+                })
+                
+            except Exception as email_error:
+                logger.error(f"Failed to send contact email: {str(email_error)}")
+                return JsonResponse({
+                    'status': 'error',
+                    'message': 'Sorry, there was an error sending your message. Please try again or contact me directly at aarij.altamash2003@gmail.com'
+                })
             
         except Exception as e:
+            logger.error(f"Contact form submission error: {str(e)}")
             return JsonResponse({
                 'status': 'error',
-                'message': 'Sorry, there was an error saving your message. Please try again.'
+                'message': 'Sorry, there was an error processing your message. Please try again.'
             })
     
     # For GET requests, redirect to home page
