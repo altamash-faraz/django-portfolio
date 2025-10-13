@@ -167,6 +167,8 @@ Reply directly to {email} to respond to the sender.
             
             # Send email
             try:
+                logger.info(f"Attempting to send email - From: {settings.DEFAULT_FROM_EMAIL}, To: {settings.CONTACT_EMAIL}")
+                
                 send_mail(
                     subject=subject,
                     message=email_message,
@@ -184,9 +186,16 @@ Reply directly to {email} to respond to the sender.
                 
             except Exception as email_error:
                 logger.error(f"Failed to send contact email: {str(email_error)}")
+                logger.error(f"Email config - Backend: {settings.EMAIL_BACKEND}")
+                logger.error(f"Email config - Host: {getattr(settings, 'EMAIL_HOST', 'Not set')}")
+                logger.error(f"Email config - Port: {getattr(settings, 'EMAIL_PORT', 'Not set')}")
+                logger.error(f"Email config - TLS: {getattr(settings, 'EMAIL_USE_TLS', 'Not set')}")
+                logger.error(f"Email config - User: {getattr(settings, 'EMAIL_HOST_USER', 'Not set')}")
+                logger.error(f"Email config - Password set: {'Yes' if getattr(settings, 'EMAIL_HOST_PASSWORD', '') else 'No'}")
+                
                 return JsonResponse({
                     'status': 'error',
-                    'message': 'Sorry, there was an error sending your message. Please try again or contact me directly at aarij.altamash2003@gmail.com'
+                    'message': f'Sorry, there was an error sending your message. Please try again or contact me directly at {settings.CONTACT_EMAIL}'
                 })
             
         except Exception as e:
