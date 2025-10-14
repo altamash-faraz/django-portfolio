@@ -293,14 +293,12 @@ def index(request):
         'download_url': 'https://drive.google.com/uc?export=download&id=1Yqr7FygGXA_b_lgEe0ytN920J_farEZ0'
     }
     
-    # Fetch real GitHub statistics and projects
+    # Fetch real GitHub statistics
     github_stats = get_github_stats()
-    github_projects = get_github_projects()
     
     context = {
         'active_resume': active_resume,
-        'github_stats': github_stats,
-        'github_projects': github_projects
+        'github_stats': github_stats
     }
     return render(request, 'main/index.html', context)
 
