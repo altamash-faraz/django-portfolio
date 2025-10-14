@@ -1237,6 +1237,65 @@ body {
     box-shadow: 0 0 20px var(--neon-blue);
 }
 
+/* Project stars styling */
+.project-stars {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.3rem 0.8rem;
+    background: rgba(255, 215, 0, 0.15);
+    color: #ffd700;
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    border-radius: 15px;
+    font-size: 0.8rem;
+    margin-left: 0.5rem;
+    animation: subtle-glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes subtle-glow {
+    from {
+        box-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
+    }
+    to {
+        box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    }
+}
+
+/* Projects footer styling */
+.projects-footer {
+    margin-top: 3rem;
+    text-align: center;
+    padding: 1.5rem;
+    background: rgba(13, 13, 20, 0.5);
+    border-radius: 12px;
+    border: 1px solid rgba(0, 255, 255, 0.2);
+}
+
+.projects-note {
+    color: #ccc;
+    font-size: 0.9rem;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.projects-note i {
+    color: var(--neon-blue);
+    font-size: 1.1rem;
+}
+
+.projects-note a {
+    color: var(--neon-blue);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.projects-note a:hover {
+    color: var(--neon-green);
+    text-shadow: 0 0 5px var(--neon-green);
+}
+
 /* GitHub Stats */
 .github-stats {
     display: grid;

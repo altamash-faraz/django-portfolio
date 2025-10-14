@@ -15,6 +15,188 @@ import logging
 # Set up logging
 logger = logging.getLogger(__name__)
 
+def get_github_projects(username='altamash-faraz'):
+    """Fetch actual projects from GitHub repositories"""
+    try:
+        repos_url = f'https://api.github.com/users/{username}/repos'
+        headers = {
+            'Accept': 'application/vnd.github.v3+json',
+            'User-Agent': 'Portfolio-Website'
+        }
+        
+        response = requests.get(repos_url, headers=headers, timeout=10)
+        
+        if response.status_code == 200:
+            repos_data = response.json()
+            
+            # Filter and process repositories
+            featured_projects = []
+            
+            # Define priority projects (manually curated for better presentation)
+            priority_repos = [
+                'votepro', 'CRUD', 'visiOCR', 'AI-Resume-Screening', 
+                'hotel-booking-app', 'django-portfolio', 'portfolio-website'
+            ]
+            
+            # Sort repos: priority first, then by stars, then by recent activity
+            sorted_repos = []
+            
+            # Add priority repos first
+            for priority in priority_repos:
+                for repo in repos_data:
+                    if repo['name'].lower() == priority.lower() and not repo['fork']:
+                        sorted_repos.append(repo)
+                        break
+            
+            # Add remaining non-fork repos sorted by stars
+            remaining_repos = [r for r in repos_data if not r['fork'] 
+                             and r['name'] not in [sr['name'] for sr in sorted_repos]]
+            remaining_repos.sort(key=lambda x: x['stargazers_count'], reverse=True)
+            
+            # Combine and limit to top 6 projects
+            all_repos = (sorted_repos + remaining_repos)[:6]
+            
+            for repo in all_repos:
+                # Determine project category and tech stack based on repo
+                category, tech_stack, demo_url = categorize_project(repo)
+                
+                project = {
+                    'name': repo['name'],
+                    'title': format_project_title(repo['name']),
+                    'description': repo['description'] or f"A {repo['language'] or 'software'} project showcasing development skills.",
+                    'category': category,
+                    'tech_stack': tech_stack,
+                    'github_url': repo['html_url'],
+                    'demo_url': demo_url,
+                    'stars': repo['stargazers_count'],
+                    'language': repo['language'],
+                    'updated_at': repo['updated_at'],
+                    'created_at': repo['created_at']
+                }
+                featured_projects.append(project)
+            
+            return featured_projects
+        
+    except Exception as e:
+        logger.error(f"Error fetching GitHub projects: {e}")
+    
+    # Return fallback projects if API fails
+    return get_fallback_projects()
+
+def categorize_project(repo):
+    """Categorize project and determine tech stack based on repository data"""
+    name = repo['name'].lower()
+    language = repo['language'] or ''
+    description = (repo['description'] or '').lower()
+    
+    # Determine demo URL based on known projects
+    demo_urls = {
+        'votepro': 'https://votepro.onrender.com/',
+        'visiocr': 'https://visiocr-y4rx.onrender.com/',
+        'ai-resume-screening': 'https://ai-resume-screen.streamlit.app/',
+        'django-portfolio': 'https://altamashfaraz.onrender.com/',
+    }
+    demo_url = demo_urls.get(name, None)
+    
+    # Categorize based on project name and content
+    if 'ai' in name or 'ml' in name or 'resume' in name or 'ocr' in name:
+        category = 'AI/ML'
+        if 'streamlit' in description:
+            tech_stack = ['Streamlit', 'Python', 'Scikit-learn', 'Machine Learning']
+        elif 'django' in description or language == 'Python':
+            tech_stack = ['Django', 'Python', 'Tesseract OCR', 'OpenCV']
+        else:
+            tech_stack = ['Python', 'Machine Learning', 'Data Science']
+    
+    elif 'react' in description or 'typescript' in description or 'hotel' in name or 'booking' in name:
+        category = 'Full Stack'
+        tech_stack = ['React', 'TypeScript', 'Node.js', 'MongoDB']
+    
+    elif 'django' in description or language == 'Python':
+        category = 'Web Application'
+        if 'portfolio' in name:
+            tech_stack = ['Django', 'Python', 'Bootstrap', 'PostgreSQL']
+        else:
+            tech_stack = ['Django', 'Python', 'REST API', 'Database']
+    
+    elif 'flask' in description or ('python' in description and 'web' in description):
+        category = 'Web Application'
+        if 'vote' in name:
+            tech_stack = ['Flask', 'Python', 'PostgreSQL', 'Bootstrap']
+        elif 'crud' in name:
+            tech_stack = ['Flask', 'Python', 'MongoDB', 'REST API']
+        else:
+            tech_stack = ['Flask', 'Python', 'Web Development']
+    
+    elif language == 'JavaScript':
+        category = 'Frontend'
+        tech_stack = ['JavaScript', 'HTML', 'CSS', 'Web Development']
+    
+    elif language == 'Java':
+        category = 'Backend'
+        tech_stack = ['Java', 'Spring Boot', 'Backend Development']
+    
+    else:
+        category = 'Software Development'
+        tech_stack = [language] if language else ['Programming']
+    
+    return category, tech_stack, demo_url
+
+def format_project_title(repo_name):
+    """Format repository name into a presentable title"""
+    title_mappings = {
+        'votepro': 'VotePro',
+        'visiocr': 'VisiOCR',
+        'ai-resume-screening': 'AI Resume Screening',
+        'hotel-booking-app': 'MernHolidays',
+        'django-portfolio': 'Django Portfolio',
+        'crud': 'CRUD Application'
+    }
+    
+    if repo_name.lower() in title_mappings:
+        return title_mappings[repo_name.lower()]
+    
+    # Default formatting: capitalize and replace hyphens/underscores
+    return repo_name.replace('-', ' ').replace('_', ' ').title()
+
+def get_fallback_projects():
+    """Fallback projects when GitHub API is unavailable"""
+    return [
+        {
+            'name': 'votepro',
+            'title': 'VotePro',
+            'description': 'Advanced polling application with email verification, real-time results, and secure voting mechanisms.',
+            'category': 'Web Application',
+            'tech_stack': ['Flask', 'Python', 'PostgreSQL', 'Bootstrap'],
+            'github_url': 'https://github.com/altamash-faraz/votepro',
+            'demo_url': 'https://votepro.onrender.com/',
+            'stars': 0,
+            'language': 'Python'
+        },
+        {
+            'name': 'CRUD',
+            'title': 'CRUD Application',
+            'description': 'Enterprise-grade CRUD application with advanced MongoDB operations and analytics.',
+            'category': 'Web Application',
+            'tech_stack': ['Flask', 'Python', 'MongoDB', 'REST API'],
+            'github_url': 'https://github.com/altamash-faraz/CRUD',
+            'demo_url': None,
+            'stars': 0,
+            'language': 'Python'
+        },
+        {
+            'name': 'visiOCR',
+            'title': 'VisiOCR',
+            'description': 'Intelligent OCR-powered visitor management system with 95%+ accuracy.',
+            'category': 'AI/ML',
+            'tech_stack': ['Django', 'Tesseract OCR', 'OpenCV', 'Python'],
+            'github_url': 'https://github.com/altamash-faraz/visiOCR',
+            'demo_url': 'https://visiocr-y4rx.onrender.com/',
+            'stars': 0,
+            'language': 'Python'
+        }
+    ]
+
 def get_github_stats(username='altamash-faraz'):
     """Fetch real GitHub statistics for the user"""
     try:
@@ -111,12 +293,14 @@ def index(request):
         'download_url': 'https://drive.google.com/uc?export=download&id=1Yqr7FygGXA_b_lgEe0ytN920J_farEZ0'
     }
     
-    # Fetch real GitHub statistics
+    # Fetch real GitHub statistics and projects
     github_stats = get_github_stats()
+    github_projects = get_github_projects()
     
     context = {
         'active_resume': active_resume,
-        'github_stats': github_stats
+        'github_stats': github_stats,
+        'github_projects': github_projects
     }
     return render(request, 'main/index.html', context)
 
