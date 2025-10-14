@@ -306,14 +306,19 @@ def index(request):
 @csrf_protect
 def contact(request):
     """Handle contact form submissions via email"""
+    logger.info(f"Contact form accessed: {request.method}")
+    
     if request.method == 'POST':
         try:
             # Log the attempt
             logger.info("Contact form submission attempt")
+            logger.info(f"POST data keys: {list(request.POST.keys())}")
             
             name = request.POST.get('name', '').strip()
             email = request.POST.get('email', '').strip()
             message = request.POST.get('message', '').strip()
+            
+            logger.info(f"Form data - Name: {name}, Email: {email}, Message length: {len(message)}")
             
             # Validate required fields
             if not name or not email or not message:
