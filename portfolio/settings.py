@@ -27,7 +27,9 @@ RENDER = os.environ.get('RENDER', False)
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-d&7_t&b0=oh=id%2o+p&-s2%^c5fc*3&%n$jwxbx=-p0t4$#ug')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
+# For local development, DEBUG is True by default
+# For production (Render), set DEBUG=false in environment variables
+DEBUG = os.environ.get('DEBUG', 'True').lower() == 'true'
 
 ALLOWED_HOSTS = ['altamashfaraz.onrender.com', 'localhost', '127.0.0.1']
 
