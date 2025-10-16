@@ -15,6 +15,188 @@ import logging
 # Set up logging
 logger = logging.getLogger(__name__)
 
+def get_github_projects(username='altamash-faraz'):
+    """Fetch actual projects from GitHub repositories"""
+    try:
+        repos_url = f'https://api.github.com/users/{username}/repos'
+        headers = {
+            'Accept': 'application/vnd.github.v3+json',
+            'User-Agent': 'Portfolio-Website'
+        }
+        
+        response = requests.get(repos_url, headers=headers, timeout=10)
+        
+        if response.status_code == 200:
+            repos_data = response.json()
+            
+            # Filter and process repositories
+            featured_projects = []
+            
+            # Define priority projects (manually curated for better presentation)
+            priority_repos = [
+                'votepro', 'CRUD', 'visiOCR', 'AI-Resume-Screening', 
+                'hotel-booking-app', 'django-portfolio', 'portfolio-website'
+            ]
+            
+            # Sort repos: priority first, then by stars, then by recent activity
+            sorted_repos = []
+            
+            # Add priority repos first
+            for priority in priority_repos:
+                for repo in repos_data:
+                    if repo['name'].lower() == priority.lower() and not repo['fork']:
+                        sorted_repos.append(repo)
+                        break
+            
+            # Add remaining non-fork repos sorted by stars
+            remaining_repos = [r for r in repos_data if not r['fork'] 
+                             and r['name'] not in [sr['name'] for sr in sorted_repos]]
+            remaining_repos.sort(key=lambda x: x['stargazers_count'], reverse=True)
+            
+            # Combine and limit to top 6 projects
+            all_repos = (sorted_repos + remaining_repos)[:6]
+            
+            for repo in all_repos:
+                # Determine project category and tech stack based on repo
+                category, tech_stack, demo_url = categorize_project(repo)
+                
+                project = {
+                    'name': repo['name'],
+                    'title': format_project_title(repo['name']),
+                    'description': repo['description'] or f"A {repo['language'] or 'software'} project showcasing development skills.",
+                    'category': category,
+                    'tech_stack': tech_stack,
+                    'github_url': repo['html_url'],
+                    'demo_url': demo_url,
+                    'stars': repo['stargazers_count'],
+                    'language': repo['language'],
+                    'updated_at': repo['updated_at'],
+                    'created_at': repo['created_at']
+                }
+                featured_projects.append(project)
+            
+            return featured_projects
+        
+    except Exception as e:
+        logger.error(f"Error fetching GitHub projects: {e}")
+    
+    # Return fallback projects if API fails
+    return get_fallback_projects()
+
+def categorize_project(repo):
+    """Categorize project and determine tech stack based on repository data"""
+    name = repo['name'].lower()
+    language = repo['language'] or ''
+    description = (repo['description'] or '').lower()
+    
+    # Determine demo URL based on known projects
+    demo_urls = {
+        'votepro': 'https://votepro.onrender.com/',
+        'visiocr': 'https://visiocr-y4rx.onrender.com/',
+        'ai-resume-screening': 'https://ai-resume-screen.streamlit.app/',
+        'django-portfolio': 'https://altamashfaraz.onrender.com/',
+    }
+    demo_url = demo_urls.get(name, None)
+    
+    # Categorize based on project name and content
+    if 'ai' in name or 'ml' in name or 'resume' in name or 'ocr' in name:
+        category = 'AI/ML'
+        if 'streamlit' in description:
+            tech_stack = ['Streamlit', 'Python', 'Scikit-learn', 'Machine Learning']
+        elif 'django' in description or language == 'Python':
+            tech_stack = ['Django', 'Python', 'Tesseract OCR', 'OpenCV']
+        else:
+            tech_stack = ['Python', 'Machine Learning', 'Data Science']
+    
+    elif 'react' in description or 'typescript' in description or 'hotel' in name or 'booking' in name:
+        category = 'Full Stack'
+        tech_stack = ['React', 'TypeScript', 'Node.js', 'MongoDB']
+    
+    elif 'django' in description or language == 'Python':
+        category = 'Web Application'
+        if 'portfolio' in name:
+            tech_stack = ['Django', 'Python', 'Bootstrap', 'PostgreSQL']
+        else:
+            tech_stack = ['Django', 'Python', 'REST API', 'Database']
+    
+    elif 'flask' in description or ('python' in description and 'web' in description):
+        category = 'Web Application'
+        if 'vote' in name:
+            tech_stack = ['Flask', 'Python', 'PostgreSQL', 'Bootstrap']
+        elif 'crud' in name:
+            tech_stack = ['Flask', 'Python', 'MongoDB', 'REST API']
+        else:
+            tech_stack = ['Flask', 'Python', 'Web Development']
+    
+    elif language == 'JavaScript':
+        category = 'Frontend'
+        tech_stack = ['JavaScript', 'HTML', 'CSS', 'Web Development']
+    
+    elif language == 'Java':
+        category = 'Backend'
+        tech_stack = ['Java', 'Spring Boot', 'Backend Development']
+    
+    else:
+        category = 'Software Development'
+        tech_stack = [language] if language else ['Programming']
+    
+    return category, tech_stack, demo_url
+
+def format_project_title(repo_name):
+    """Format repository name into a presentable title"""
+    title_mappings = {
+        'votepro': 'VotePro',
+        'visiocr': 'VisiOCR',
+        'ai-resume-screening': 'AI Resume Screening',
+        'hotel-booking-app': 'MernHolidays',
+        'django-portfolio': 'Django Portfolio',
+        'crud': 'CRUD Application'
+    }
+    
+    if repo_name.lower() in title_mappings:
+        return title_mappings[repo_name.lower()]
+    
+    # Default formatting: capitalize and replace hyphens/underscores
+    return repo_name.replace('-', ' ').replace('_', ' ').title()
+
+def get_fallback_projects():
+    """Fallback projects when GitHub API is unavailable"""
+    return [
+        {
+            'name': 'votepro',
+            'title': 'VotePro',
+            'description': 'Advanced polling application with email verification, real-time results, and secure voting mechanisms.',
+            'category': 'Web Application',
+            'tech_stack': ['Flask', 'Python', 'PostgreSQL', 'Bootstrap'],
+            'github_url': 'https://github.com/altamash-faraz/votepro',
+            'demo_url': 'https://votepro.onrender.com/',
+            'stars': 0,
+            'language': 'Python'
+        },
+        {
+            'name': 'CRUD',
+            'title': 'CRUD Application',
+            'description': 'Enterprise-grade CRUD application with advanced MongoDB operations and analytics.',
+            'category': 'Web Application',
+            'tech_stack': ['Flask', 'Python', 'MongoDB', 'REST API'],
+            'github_url': 'https://github.com/altamash-faraz/CRUD',
+            'demo_url': None,
+            'stars': 0,
+            'language': 'Python'
+        },
+        {
+            'name': 'visiOCR',
+            'title': 'VisiOCR',
+            'description': 'Intelligent OCR-powered visitor management system with 95%+ accuracy.',
+            'category': 'AI/ML',
+            'tech_stack': ['Django', 'Tesseract OCR', 'OpenCV', 'Python'],
+            'github_url': 'https://github.com/altamash-faraz/visiOCR',
+            'demo_url': 'https://visiocr-y4rx.onrender.com/',
+            'stars': 0,
+            'language': 'Python'
+        }
+    ]
+
 def get_github_stats(username='altamash-faraz'):
     """Fetch real GitHub statistics for the user"""
     try:
@@ -124,14 +306,19 @@ def index(request):
 @csrf_protect
 def contact(request):
     """Handle contact form submissions via email"""
+    logger.info(f"Contact form accessed: {request.method}")
+    
     if request.method == 'POST':
         try:
             # Log the attempt
             logger.info("Contact form submission attempt")
+            logger.info(f"POST data keys: {list(request.POST.keys())}")
             
             name = request.POST.get('name', '').strip()
             email = request.POST.get('email', '').strip()
             message = request.POST.get('message', '').strip()
+            
+            logger.info(f"Form data - Name: {name}, Email: {email}, Message length: {len(message)}")
             
             # Validate required fields
             if not name or not email or not message:
@@ -167,6 +354,8 @@ Reply directly to {email} to respond to the sender.
             
             # Send email
             try:
+                logger.info(f"Attempting to send email - From: {settings.DEFAULT_FROM_EMAIL}, To: {settings.CONTACT_EMAIL}")
+                
                 send_mail(
                     subject=subject,
                     message=email_message,
@@ -184,9 +373,16 @@ Reply directly to {email} to respond to the sender.
                 
             except Exception as email_error:
                 logger.error(f"Failed to send contact email: {str(email_error)}")
+                logger.error(f"Email config - Backend: {settings.EMAIL_BACKEND}")
+                logger.error(f"Email config - Host: {getattr(settings, 'EMAIL_HOST', 'Not set')}")
+                logger.error(f"Email config - Port: {getattr(settings, 'EMAIL_PORT', 'Not set')}")
+                logger.error(f"Email config - TLS: {getattr(settings, 'EMAIL_USE_TLS', 'Not set')}")
+                logger.error(f"Email config - User: {getattr(settings, 'EMAIL_HOST_USER', 'Not set')}")
+                logger.error(f"Email config - Password set: {'Yes' if getattr(settings, 'EMAIL_HOST_PASSWORD', '') else 'No'}")
+                
                 return JsonResponse({
                     'status': 'error',
-                    'message': 'Sorry, there was an error sending your message. Please try again or contact me directly at aarij.altamash2003@gmail.com'
+                    'message': f'Sorry, there was an error sending your message. Please try again or contact me directly at {settings.CONTACT_EMAIL}'
                 })
             
         except Exception as e:

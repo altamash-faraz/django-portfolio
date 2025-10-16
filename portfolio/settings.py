@@ -27,7 +27,9 @@ RENDER = os.environ.get('RENDER', False)
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-d&7_t&b0=oh=id%2o+p&-s2%^c5fc*3&%n$jwxbx=-p0t4$#ug')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
+# For local development, DEBUG is True by default
+# For production (Render), set DEBUG=false in environment variables
+DEBUG = os.environ.get('DEBUG', 'True').lower() == 'true'
 
 ALLOWED_HOSTS = ['altamashfaraz.onrender.com', 'localhost', '127.0.0.1']
 
@@ -185,17 +187,22 @@ LOGGING = {
     },
 }
 
-# Email configuration for Gmail SMTP
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', 'aarij.altamash@gmail.com')
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', 'ocskmvgydaemwcgh')
+# Email configuration
+if DEBUG:
+    # For local development - print emails to console
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+else:
+    # For production - use Gmail SMTP
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_HOST = 'smtp.gmail.com'
+    EMAIL_PORT = 587
+    EMAIL_USE_TLS = True
+    EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', 'aarij.altamash@gmail.com')
+    EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
 
 # Default email settings
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+DEFAULT_FROM_EMAIL = os.environ.get('EMAIL_HOST_USER', 'aarij.altamash@gmail.com')
 CONTACT_EMAIL = 'aarij.altamash@gmail.com'  # Where contact form emails will be sent
 
-# For development, you can temporarily use console backend to test form functionality:
-# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# Email timeout settings
+EMAIL_TIMEOUT = 30
