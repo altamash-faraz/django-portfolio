@@ -33,33 +33,43 @@ A professional portfolio website built with Django, featuring dynamic GitHub sta
 ## 🚀 Quick Start
 
 ### 1. Clone the repository
+
 ```bash
 git clone https://github.com/altamash-faraz/django-portfolio.git
 cd django-portfolio
 ```
 
 ### 2. Create virtual environment
+
 ```bash
+
+
 python -m venv venv
 ```
 
 ### 3. Activate virtual environment
+
 **Windows:**
+
 ```bash
+
 venv\Scripts\activate
 ```
 
 **macOS/Linux:**
+
 ```bash
 source venv/bin/activate
 ```
 
 ### 4. Install dependencies
+
 ```bash
 pip install -r requirements.txt
 ```
 
 ### 5. Apply migrations
+
 ```bash
 python manage.py migrate
 ```
@@ -105,24 +115,28 @@ Visit `http://127.0.0.1:8000` to view the portfolio.
 ## 🎯 Key Features Explained
 
 ### Dynamic GitHub Stats
+
 - Real-time fetching of GitHub user statistics
 - Displays followers, following, repositories, and stars
 - Automatic fallback system for API failures
 - Smart caching for performance optimization
 
 ### Resume Management
+
 - Google Drive integration for resume hosting
 - Download tracking and analytics
 - Admin panel for resume management
 - Secure file serving
 
 ### Contact System
+
 - Functional contact form with validation
 - Database storage of messages
 - Admin interface for message management
 - CSRF protection
 
 ### Responsive Design
+
 - Mobile-first approach
 - Cross-browser compatibility
 - Modern CSS Grid and Flexbox

@@ -3,7 +3,6 @@ from django.http import JsonResponse, Http404, HttpResponse
 from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_protect
 from django.contrib import messages
-from django.core.mail import send_mail
 from django.conf import settings
 from .models import Resume
 import json
@@ -305,14 +304,13 @@ def index(request):
 @require_http_methods(["GET", "POST"])
 @csrf_protect
 def contact(request):
-    """Handle contact form submissions via email"""
+    """Handle contact form submissions - No email, just success message"""
     logger.info(f"Contact form accessed: {request.method}")
     
     if request.method == 'POST':
         try:
             # Log the attempt
             logger.info("Contact form submission attempt")
-            logger.info(f"POST data keys: {list(request.POST.keys())}")
             
             name = request.POST.get('name', '').strip()
             email = request.POST.get('email', '').strip()
@@ -336,54 +334,17 @@ def contact(request):
                     'message': 'Please enter a valid email address.'
                 })
             
-            # Prepare email content
-            subject = f'Portfolio Contact Form - Message from {name}'
-            email_message = f"""
-New contact form submission from your portfolio:
-
-Name: {name}
-Email: {email}
-
-Message:
-{message}
-
----
-This message was sent from your portfolio contact form.
-Reply directly to {email} to respond to the sender.
-            """.strip()
+            # Log the contact form submission (instead of sending email)
+            logger.info(f"Contact form submission received:")
+            logger.info(f"Name: {name}")
+            logger.info(f"Email: {email}")
+            logger.info(f"Message: {message}")
             
-            # Send email
-            try:
-                logger.info(f"Attempting to send email - From: {settings.DEFAULT_FROM_EMAIL}, To: {settings.CONTACT_EMAIL}")
-                
-                send_mail(
-                    subject=subject,
-                    message=email_message,
-                    from_email=settings.DEFAULT_FROM_EMAIL,
-                    recipient_list=[settings.CONTACT_EMAIL],
-                    fail_silently=False,
-                )
-                
-                logger.info(f"Contact form email sent successfully from {email}")
-                
-                return JsonResponse({
-                    'status': 'success',
-                    'message': f'Thank you {name}! Your message has been sent. I will get back to you soon.'
-                })
-                
-            except Exception as email_error:
-                logger.error(f"Failed to send contact email: {str(email_error)}")
-                logger.error(f"Email config - Backend: {settings.EMAIL_BACKEND}")
-                logger.error(f"Email config - Host: {getattr(settings, 'EMAIL_HOST', 'Not set')}")
-                logger.error(f"Email config - Port: {getattr(settings, 'EMAIL_PORT', 'Not set')}")
-                logger.error(f"Email config - TLS: {getattr(settings, 'EMAIL_USE_TLS', 'Not set')}")
-                logger.error(f"Email config - User: {getattr(settings, 'EMAIL_HOST_USER', 'Not set')}")
-                logger.error(f"Email config - Password set: {'Yes' if getattr(settings, 'EMAIL_HOST_PASSWORD', '') else 'No'}")
-                
-                return JsonResponse({
-                    'status': 'error',
-                    'message': f'Sorry, there was an error sending your message. Please try again or contact me directly at {settings.CONTACT_EMAIL}'
-                })
+            # Return success message without sending email
+            return JsonResponse({
+                'status': 'success',
+                'message': f'Thank you {name}! Your message has been received. Please contact me directly at aarij.altamash2003@gmail.com for a quick response.'
+            })
             
         except Exception as e:
             logger.error(f"Contact form submission error: {str(e)}")
